@@ -18,7 +18,6 @@ public class PublicationController {
 
     @PostMapping
     public ResponseEntity<Publication> create(@RequestBody PublicationDTO publicationDTO) {
-        System.out.println("Received PublicationDTO: " + publicationDTO);
         Publication publication = publicationService.createPublication(publicationDTO);
         return ResponseEntity.ok().body(publication);
     }
