@@ -17,9 +17,11 @@ public class Task {
     @Id
     private String id;
     private String description;
+    private Integer experiencePoints;
 
     public Task(TaskDTO taskDTO) {
         this.description = taskDTO.description();
+        this.experiencePoints = taskDTO.experiencePoints();
     }
 
 }

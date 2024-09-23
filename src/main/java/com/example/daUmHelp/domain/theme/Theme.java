@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
@@ -23,6 +24,13 @@ public class Theme {
     private String imageUrl;
     private String primaryColor;
     private String secondaryColor;
+    @DBRef
     private List<Task> tasks;
 
+    public Theme(ThemeDTO themeDTO) {
+        this.key = themeDTO.key();
+        this.imageUrl = themeDTO.imageUrl();
+        this.primaryColor = themeDTO.primaryColor();
+        this.secondaryColor = themeDTO.secondaryColor();
+    }
 }
