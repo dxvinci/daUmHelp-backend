@@ -21,6 +21,7 @@ public class Theme {
     @Id
     private String id;
     private Integer key;
+    private String theme;
     private String imageUrl;
     private String primaryColor;
     private String secondaryColor;
@@ -29,6 +30,7 @@ public class Theme {
 
     public Theme(ThemeDTO themeDTO) {
         this.key = themeDTO.key();
+        this.theme = themeDTO.theme();
         this.imageUrl = themeDTO.imageUrl();
         this.primaryColor = themeDTO.primaryColor();
         this.secondaryColor = themeDTO.secondaryColor();

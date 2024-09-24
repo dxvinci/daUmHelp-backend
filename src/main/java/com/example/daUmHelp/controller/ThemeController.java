@@ -30,6 +30,7 @@ public class ThemeController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdTheme);
     }
 
+    @PutMapping("/{themeId}/tasks")
     public ResponseEntity<Theme> addTaskToTheme(@PathVariable String themeId, @RequestBody String taskId) {
         Theme updatedTheme = themeService.addTaskToTheme(themeId, taskId);
         return ResponseEntity.ok(updatedTheme);

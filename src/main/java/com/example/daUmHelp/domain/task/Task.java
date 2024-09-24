@@ -18,6 +18,7 @@ public class Task {
     private String id;
     private String description;
     private Integer experiencePoints;
+    private String relatedAchievementId;
 
     public Task(TaskDTO taskDTO) {
         this.description = taskDTO.description();
