@@ -1,5 +1,6 @@
 package com.example.daUmHelp.controller;
 
+import com.example.daUmHelp.domain.publication.Publication;
 import com.example.daUmHelp.domain.task.Task;
 import com.example.daUmHelp.domain.task.TaskCompletionRequest;
 import com.example.daUmHelp.domain.task.TaskCompletionResponse;
@@ -17,6 +18,12 @@ public class TaskController {
 
     @Autowired
     TaskService taskService;
+
+    @GetMapping
+    public ResponseEntity<List<Task>> getAllTasks() {
+        List<Task> tasks = taskService.getAllTasks();
+        return ResponseEntity.ok().body(tasks);
+    }
 
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody TaskDTO taskDTO) {

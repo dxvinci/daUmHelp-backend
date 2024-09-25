@@ -1,6 +1,8 @@
 package com.example.daUmHelp.controller;
 
 import com.example.daUmHelp.domain.task.TaskDTO;
+import com.example.daUmHelp.domain.task.TaskIdsRequest;
+import com.example.daUmHelp.domain.task.TaskRequest;
 import com.example.daUmHelp.domain.theme.Theme;
 import com.example.daUmHelp.domain.theme.ThemeDTO;
 import com.example.daUmHelp.service.ThemeService;
@@ -31,14 +33,14 @@ public class ThemeController {
     }
 
     @PutMapping("/{themeId}/tasks")
-    public ResponseEntity<Theme> addTaskToTheme(@PathVariable String themeId, @RequestBody String taskId) {
-        Theme updatedTheme = themeService.addTaskToTheme(themeId, taskId);
+    public ResponseEntity<Theme> addTaskToTheme(@PathVariable String themeId, @RequestBody TaskRequest taskRequest) {
+        Theme updatedTheme = themeService.addTaskToTheme(themeId, taskRequest.taskId());
         return ResponseEntity.ok(updatedTheme);
     }
 
     @PutMapping("/{themeId}/tasks/batch")
-    public ResponseEntity<Theme> addTasksToTheme(@PathVariable String themeId, @RequestBody List<String> taskIds) {
-        Theme updatedTheme = themeService.addTasksToTheme(themeId, taskIds);
+    public ResponseEntity<Theme> addTasksToTheme(@PathVariable String themeId, @RequestBody TaskIdsRequest taskIdsRequest) {
+        Theme updatedTheme = themeService.addTasksToTheme(themeId, taskIdsRequest);
         return ResponseEntity.ok(updatedTheme);
     }
 

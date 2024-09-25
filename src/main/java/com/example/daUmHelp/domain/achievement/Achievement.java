@@ -7,6 +7,9 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Document(collection = "achievements")
 @Getter
 @Setter
@@ -17,8 +20,16 @@ public class Achievement {
     private String id;
     private String name;
     private String description;
-    private String imageUrl;
-    private AchievementTypeEnum type;
-    private Integer threshold;
+    private List<AchievementDetailsDTO> type;
 
+    public Achievement(AchievementDTO achievementDTO) {
+        this.name = achievementDTO.name();
+        this.description = achievementDTO.description();
+        this.type = new ArrayList<>();
+
+        for (AchievementDetailsDTO x : achievementDTO.detailsDTO()) {
+            this.type.add(x);
+        }
+
+    }
 }

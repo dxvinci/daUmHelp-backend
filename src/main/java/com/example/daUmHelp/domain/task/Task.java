@@ -23,6 +23,7 @@ public class Task {
     public Task(TaskDTO taskDTO) {
         this.description = taskDTO.description();
         this.experiencePoints = taskDTO.experiencePoints();
+        this.relatedAchievementId = taskDTO.relatedAchievementId();
     }
 
 }

@@ -1,17 +1,21 @@
 package com.example.daUmHelp.service;
 
+import com.example.daUmHelp.domain.achievement.Achievement;
 import com.example.daUmHelp.domain.task.Task;
 import com.example.daUmHelp.domain.task.TaskCompletionResponse;
 import com.example.daUmHelp.domain.task.TaskDTO;
 import com.example.daUmHelp.domain.user.User;
 import com.example.daUmHelp.domain.user.UserTask;
+import com.example.daUmHelp.repository.AchievementRepository;
 import com.example.daUmHelp.repository.TaskRepository;
 import com.example.daUmHelp.repository.UserRepository;
 import com.example.daUmHelp.shared.util.Constants;
+import com.example.daUmHelp.shared.util.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +24,8 @@ public class TaskService {
     private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AchievementRepository achievementRepository;
 
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
@@ -38,8 +44,13 @@ public class TaskService {
     }
 
     public TaskCompletionResponse completeTask(String userId, String taskId) {
-        Task task = taskRepository.findById(taskId).get();
-        User user = userRepository.findById(userId).get();
+        Task task = taskRepository.findById(taskId)
+                .orElseThrow(() -> new NoSuchElementException(Messages.RECORD_NOT_FOUND + taskId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NoSuchElementException(Messages.RECORD_NOT_FOUND + userId));
+        Achievement achievement = achievementRepository.findById(task.getRelatedAchievementId())
+                .orElseThrow(() -> new NoSuchElementException(Messages.RECORD_NOT_FOUND + task.getRelatedAchievementId()));
+
 
         UserTask userTask = user.getUserTasks().stream()
                 .filter(t -> t.getTaskId().equals(taskId))
