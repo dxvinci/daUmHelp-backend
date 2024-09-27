@@ -12,5 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class UserAchievement {
     private String achievementId;
+    private String imageUrl;
     private AchievementTypeEnum achievementTypeEnum;
 }

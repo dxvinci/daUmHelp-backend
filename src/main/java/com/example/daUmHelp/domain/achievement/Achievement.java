@@ -20,16 +20,14 @@ public class Achievement {
     private String id;
     private String name;
     private String description;
-    private List<AchievementDetailsDTO> type;
+    private List<AchievementDetails> type;
 
     public Achievement(AchievementDTO achievementDTO) {
         this.name = achievementDTO.name();
         this.description = achievementDTO.description();
-        this.type = new ArrayList<>();
 
-        for (AchievementDetailsDTO x : achievementDTO.detailsDTO()) {
-            this.type.add(x);
-        }
+        this.type = new ArrayList<>();
+        this.type.addAll(achievementDTO.details());
 
     }
 }

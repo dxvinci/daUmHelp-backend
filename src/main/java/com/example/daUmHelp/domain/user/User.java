@@ -24,12 +24,16 @@ public class User {
     private Integer level;
     private Integer experiencePoints;
     private List<UserTask> userTasks;
+    private List<UserAchievement> userAchievements;
+    private List<UserPublication> userPublications;
 
     public User(UserDTO userDTO) {
         this.name = userDTO.name();
         this.level = 1;
         this.experiencePoints = 0;
         this.userTasks = new ArrayList<>();
+        this.userAchievements = new ArrayList<>();
+        this.userPublications = new ArrayList<>();
     }
 
 }
