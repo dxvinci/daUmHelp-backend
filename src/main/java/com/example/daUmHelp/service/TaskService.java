@@ -3,6 +3,7 @@ package com.example.daUmHelp.service;
 import com.example.daUmHelp.domain.achievement.Achievement;
 import com.example.daUmHelp.domain.achievement.AchievementDetails;
 import com.example.daUmHelp.domain.achievement.AchievementResponse;
+import com.example.daUmHelp.domain.task.SpecialTaskResponse;
 import com.example.daUmHelp.domain.task.Task;
 import com.example.daUmHelp.domain.task.TaskCompletionResponse;
 import com.example.daUmHelp.domain.task.TaskDTO;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
@@ -35,6 +37,16 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
+    public SpecialTaskResponse getSpecialTask() {
+        List<Task> tasks = taskRepository.findAll();
+        int size = tasks.size() - 1;
+        Random random = new Random();
+
+        int randomNumber = random.nextInt(size + 1);
+        Task randomTask = tasks.get(randomNumber);
+        return new SpecialTaskResponse(randomTask, true);
+    }
+
     public Task createTask(TaskDTO taskDTO) {
         Task task = new Task(taskDTO);
         return taskRepository.save(task);
@@ -47,7 +59,7 @@ public class TaskService {
                 .toList();
     }
 
-    public TaskCompletionResponse completeTask(String userId, String taskId) {
+    public TaskCompletionResponse completeTask(String userId, String taskId, boolean isSpecialTask) {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new NoSuchElementException(Messages.RECORD_NOT_FOUND + taskId));
         User user = userRepository.findById(userId)
@@ -62,6 +74,8 @@ public class TaskService {
                 .orElse(null);
 
         Integer taskExperiencePoints = task.getExperiencePoints();
+        if (isSpecialTask)
+            taskExperiencePoints *= 2;
 
         if (userTask != null) {
             userTask.setTimesCompleted(userTask.getTimesCompleted() + 1);
@@ -116,12 +130,26 @@ public class TaskService {
     }
 
     private boolean checkLevelUp(User user) {
-        if (user.getExperiencePoints() >= Constants.BASE_EXP_TO_LEVEL_UP) {
+        int xpNeededToLevelUp = getXpNeeedToLevelUp(user);
+        if (user.getExperiencePoints() >= xpNeededToLevelUp) {
             user.setLevel(user.getLevel() + 1);
-            user.setExperiencePoints(user.getExperiencePoints() - Constants.BASE_EXP_TO_LEVEL_UP);
             return true;
         }
         return false;
+    }
+
+    private int getXpNeeedToLevelUp(User user) {
+        int currentLevel = user.getLevel();
+        if (currentLevel <= 5)
+            return currentLevel * 30;
+        else if (currentLevel <= 10)
+            return 150 + (currentLevel - 5) * 50;
+        else if (currentLevel <= 30)
+            return 400 + (currentLevel - 10) * 75;
+        else if (currentLevel <= 70)
+            return 1900 + (currentLevel - 30) * 86;
+        else
+            return 5440 + (currentLevel - 70) * 105;
     }
 
 }

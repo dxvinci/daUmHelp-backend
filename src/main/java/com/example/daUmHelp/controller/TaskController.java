@@ -1,10 +1,7 @@
 package com.example.daUmHelp.controller;
 
 import com.example.daUmHelp.domain.publication.Publication;
-import com.example.daUmHelp.domain.task.Task;
-import com.example.daUmHelp.domain.task.TaskCompletionRequest;
-import com.example.daUmHelp.domain.task.TaskCompletionResponse;
-import com.example.daUmHelp.domain.task.TaskDTO;
+import com.example.daUmHelp.domain.task.*;
 import com.example.daUmHelp.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +22,12 @@ public class TaskController {
         return ResponseEntity.ok().body(tasks);
     }
 
+    @GetMapping("/special")
+    public ResponseEntity<SpecialTaskResponse> getSpecialTask() {
+        SpecialTaskResponse specialTask = taskService.getSpecialTask();
+        return ResponseEntity.ok().body(specialTask);
+    }
+
     @PostMapping
     public ResponseEntity<Task> create(@RequestBody TaskDTO taskDTO) {
         Task task = taskService.createTask(taskDTO);
@@ -39,7 +42,13 @@ public class TaskController {
 
     @PostMapping("/complete")
     public ResponseEntity<TaskCompletionResponse> completeTask(@RequestBody TaskCompletionRequest taskCompletionRequest) {
-        TaskCompletionResponse response = taskService.completeTask(taskCompletionRequest.userId(), taskCompletionRequest.taskId());
+        TaskCompletionResponse response = taskService.completeTask(taskCompletionRequest.userId(), taskCompletionRequest.taskId(), false);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/complete-special")
+    public ResponseEntity<TaskCompletionResponse> completeSpecialTask(@RequestBody TaskCompletionRequest taskCompletionRequest) {
+        TaskCompletionResponse response = taskService.completeTask(taskCompletionRequest.userId(), taskCompletionRequest.taskId(), true);
         return ResponseEntity.ok().body(response);
     }
 
