@@ -1,1 +1,3 @@
 # daUmHelp-backend
+
+O "dáUmHelp" foi um projeto desenvolvido para o Hackaton - Desafio ODS 2024 proposto pela PUC Minas. Ele é um aplicativo sem fins lucrativos que busca incentivar os usuários a adotarem hábitos mais sustentáveis e contribuírem para uma sociedade melhor. Utilizando a gamificação, o app transforma ações responsáveis em práticas diárias divertidas, com funcionalidades como tarefas temáticas, conquistas, sistemas de experiência, ranqueamento e comunidades. Além de conscientizar os usuários sobre questões socioambientais, o "dáUmHelp" se destaca ao promover uma abordagem contínua para o desenvolvimento de hábitos sustentáveis, reforçando o impacto das pequenas ações cotidianas.
